@@ -5699,13 +5699,15 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       from: 0,
       to: 0,
       currentPage: 1,
-      search_query: ""
+      search_query: "",
+      loader: true
     };
   },
   methods: {
     getData: function getData() {
       var _this = this;
 
+      this.loader = true;
       axios.get('/api/user-connections/get-suggestions', {
         params: {
           'page': this.currentPage
@@ -5717,6 +5719,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         _this.perPage = response.data.suggestions.per_page;
         _this.total = response.data.suggestions.total;
         _this.totalPages = response.data.suggestions.last_page;
+        _this.loader = false;
       })["catch"](function (error) {
         console.error("There was an error!", error);
       })["finally"](function () {});
@@ -6105,17 +6108,30 @@ var render = function render() {
   }, [_vm._l(_vm.suggestions, function (item, index) {
     return _c("div", {
       staticClass: "d-flex justify-content-between mb-2"
-    }, [_c("table", {
+    }, [_vm.loader == true ? _c("div", {
+      staticClass: "d-flex align-items-center mb-2 text-white bg-dark p-1 shadow",
+      staticStyle: {
+        height: "45px"
+      }
+    }, [_c("strong", {
+      staticClass: "ms-1 text-primary"
+    }, [_vm._v("Loading...")]), _vm._v(" "), _c("div", {
+      staticClass: "spinner-border ms-auto text-primary me-4",
+      attrs: {
+        role: "status",
+        "aria-hidden": "true"
+      }
+    })]) : _vm._e(), _vm._v(" "), _vm.loader == false ? _c("table", {
       staticClass: "ms-1"
     }, [_c("td", {
-      staticClass: "align-middle"
+      staticClass: "align-m iddle"
     }, [_vm._v(_vm._s(item.name))]), _vm._v(" "), _c("td", {
       staticClass: "align-middle"
     }, [_vm._v(" - ")]), _vm._v(" "), _c("td", {
       staticClass: "align-middle mt-2"
     }, [_vm._v(_vm._s(item.email))]), _vm._v(" "), _c("td", {
       staticClass: "align-middle"
-    })]), _vm._v(" "), _c("div", [_c("button", {
+    })]) : _vm._e(), _vm._v(" "), _vm.loader == false ? _c("div", [_c("button", {
       staticClass: "btn btn-primary me-1",
       attrs: {
         id: "create_request_btn_"
@@ -6126,8 +6142,8 @@ var render = function render() {
           return _vm.connectUser(item.id, index);
         }
       }
-    }, [_vm._v("Connect")])])]);
-  }), _vm._v(" "), _vm.currentPage < _vm.totalPages ? [_c("div", {
+    }, [_vm._v("Connect")])]) : _vm._e()]);
+  }), _vm._v(" "), _vm.currentPage < _vm.totalPages && _vm.loader == false ? [_c("div", {
     staticClass: "d-flex justify-content-center mt-2 py-3",
     attrs: {
       id: "load_more_btn_parent"

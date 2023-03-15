@@ -15,13 +15,15 @@
           <label class="btn btn-outline-primary a_reset" for="btnradio1" id="get_suggestions_btn" on-click="">
 			 <router-link  :to="{ name: 'Suggestions' }" >
 		                Suggestions
-		            </router-link> ()</label>
+		             ()</router-link></label>
 
           <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
           <label class="btn btn-outline-primary a_reset" for="btnradio2" id="get_sent_requests_btn">
 					<router-link  :to="{ name: 'Sent requests' }" >
 			    		Sent requests
-		            </router-link> ()</label>
+		             ()
+					 </router-link>
+					</label>
 
           <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
           <label class="btn btn-outline-primary a_reset" for="btnradio3" id="get_received_requests_btn">
@@ -33,7 +35,7 @@
           <label class="btn btn-outline-primary a_reset" for="btnradio4" id="get_connections_btn">
 			<router-link  :to="{ name: 'Connections' }" >
 			    		Connections
-		            </router-link> ()</label>
+		             ()</router-link></label>
         </div>
         <hr>
         <div id="content" >
@@ -41,6 +43,9 @@
         </div>
       </div>
     </div>
+	 <loader 
+	      :is-visible="isLoading"
+	  ></loader>
   </div>
 </div>
 
